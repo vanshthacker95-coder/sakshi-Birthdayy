@@ -37,9 +37,43 @@ input{width:75%;padding:14px;border:2px solid #ce93d8;border-radius:15px;outline
 </style>
 </head>
 <body>
-<audio id="bgMusic" loop preload="auto">
-<source src="Song.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop preload="metadata">
+<source src="./Song.mp3" type="audio/mpeg">
+Your browser does not support audio.
 </audio>
+
+<button id="musicBtn" onclick="toggleMusic()" style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:9999;
+padding:10px 16px;
+border:none;
+border-radius:25px;
+background:#7b2cbf;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+">
+🎵 Play Music
+</button>
+
+<div id="musicError" style="
+position:fixed;
+top:68px;
+right:20px;
+z-index:9999;
+display:none;
+background:white;
+padding:8px 12px;
+border-radius:12px;
+font-size:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+">
+Music load problem — tap Play again 🎵
+</div>
 
 <button id="musicBtn" onclick="toggleMusic()" style="
 position:fixed;
@@ -147,8 +181,21 @@ box-shadow:0 5px 15px rgba(0,0,0,.2);
 function toggleMusic(){
  const music=document.getElementById("bgMusic");
  const btn=document.getElementById("musicBtn");
+ const err=document.getElementById("musicError");
+
  if(music.paused){
-  music.play().then(()=>{btn.innerHTML="⏸️ Pause Music";}).catch(()=>{});
+  err.style.display="none";
+  music.load();
+  const playPromise=music.play();
+
+  if(playPromise !== undefined){
+   playPromise.then(function(){
+    btn.innerHTML="⏸️ Pause Music";
+   }).catch(function(){
+    btn.innerHTML="🎵 Play Music";
+    err.style.display="block";
+   });
+  }
  }else{
   music.pause();
   btn.innerHTML="🎵 Play Music";
