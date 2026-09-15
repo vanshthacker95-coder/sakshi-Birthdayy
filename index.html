@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Junuu 💜</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:"Comic Sans MS",cursive,sans-serif;background:linear-gradient(135deg,#e1bee7,#f8bbd0,#ce93d8);color:#4a148c;overflow-x:hidden}
+.page{display:none;width:92%;max-width:500px;margin:40px auto;padding:35px 25px;background:rgba(255,255,255,.96);border-radius:28px;box-shadow:0 15px 45px rgba(74,20,140,.25);text-align:center;position:relative;z-index:5}
+.page.active{display:block;animation:pageIn .6s ease}
+@keyframes pageIn{from{opacity:0;transform:scale(.85) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+h1{font-size:30px;margin-bottom:15px}h2{font-size:25px;margin-bottom:15px}p{line-height:1.7;margin:10px 0}
+button{border:none;padding:13px 27px;margin:8px;border-radius:30px;background:linear-gradient(135deg,#ce93d8,#ab47bc);color:white;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 6px 15px rgba(123,31,162,.25);transition:.25s}
+button:hover{transform:translateY(-3px) scale(1.05)}
+input{width:75%;padding:14px;border:2px solid #ce93d8;border-radius:15px;outline:none;text-align:center;font-size:20px}
+.error{color:#d32f2f;display:none;font-size:14px}
+.big-emoji{font-size:80px;margin:15px;animation:bounce 1s infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.cake{font-size:90px;cursor:pointer;margin:15px;transition:.3s}.cake:hover{transform:scale(1.1)}
+.candle{font-size:45px;display:inline-block;animation:flicker .4s infinite alternate}.candle.off{opacity:0;transform:scale(.2);transition:.5s}
+@keyframes flicker{from{transform:scale(1)}to{transform:scale(1.15) rotate(3deg)}}
+.gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}.gift{font-size:65px;cursor:pointer;transition:.3s}.gift:hover{transform:translateY(-10px) rotate(8deg) scale(1.15)}
+.gift-message{display:none;margin-top:25px;padding:18px;border-radius:18px;background:#f3e5f5;animation:pop .4s ease;font-weight:bold}
+@keyframes pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.letter{background:#fff8fc;border:2px dashed #ce93d8;padding:25px;border-radius:20px;text-align:left;margin-top:20px;line-height:1.8}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.photo-grid img{width:100%;height:190px;object-fit:cover;border-radius:18px;box-shadow:0 5px 15px rgba(74,20,140,.2);cursor:pointer;transition:.3s}
+.photo-grid img:hover{transform:scale(1.03)}
+.final-heart{font-size:100px;animation:heartBeat 1s infinite}
+@keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.confetti{position:fixed;top:-20px;z-index:100;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.bg-heart{position:fixed;bottom:-50px;font-size:25px;opacity:.7;animation:floatHeart linear infinite;pointer-events:none;z-index:0}
+@keyframes floatHeart{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.8}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+.small{font-size:13px;opacity:.65}
+</style>
+</head>
+<body>
+<audio id="bgMusic" loop preload="auto">
+<source src="Song.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn" onclick="toggleMusic()" style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:9999;
+padding:10px 16px;
+border:none;
+border-radius:25px;
+background:#7b2cbf;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+">
+🎵 Play Music
+</button>
+
+
+
+<div id="page1" class="page active">
+<div class="big-emoji">🔐</div>
+<h2>Secret Birthday Surprise</h2>
+<p>Hmm... only the special person can unlock this 👀💜</p>
+<input type="password" id="pass" maxlength="4" placeholder="Enter 4 digit code">
+<br><br><button onclick="checkPass()">Unlock 🔓</button>
+<p id="error" class="error">Wrong code 😝 Try again!</p>
+<p class="small">Hint: It's a special date 😉</p>
+</div>
+
+<div id="page2" class="page">
+<div class="big-emoji">🥺💜</div>
+<h2>Hey Chikuu...</h2>
+<p>I have prepared a little something for you.<br><br>Are you ready to see your surprise? 👀🎁</p>
+<button onclick="nextPage('page4');startHearts()">YESSS 🥹💜</button>
+<button onclick="nextPage('page3')">NO 😭</button>
+</div>
+
+<div id="page3" class="page">
+<div class="big-emoji">😤</div>
+<h2>HOW DARE YOU?!</h2>
+<p>You actually clicked NO?! 😭<br>That was definitely the wrong button.</p>
+<button onclick="nextPage('page2')">TRY AGAIN 😭</button>
+</div>
+
+<div id="page4" class="page">
+<h1>🎉 HAPPY BIRTHDAY JUNUU 🎉</h1>
+<p>Today is your special day! 💜</p>
+<div class="cake" onclick="blowCandle()">🎂</div>
+<div id="candle" class="candle">🕯️</div>
+<p id="wishText">Make a wish... ✨<br><span class="small">Tap the cake to blow the candle 🎂</span></p>
+<button onclick="nextPage('page5');launchConfetti()">Continue 🎁</button>
+</div>
+
+<div id="page5" class="page">
+<h2>🎁 Your Gifts 🎁</h2>
+<p>There are 6 gifts waiting for you...<br>Open them one by one! 👀</p>
+<div class="gifts">
+<div class="gift" onclick="openGift(1)">🎁</div><div class="gift" onclick="openGift(2)">🎁</div>
+<div class="gift" onclick="openGift(3)">🎁</div><div class="gift" onclick="openGift(4)">🎁</div>
+<div class="gift" onclick="openGift(5)">🎁</div><div class="gift" onclick="openGift(6)">🎁</div>
+</div>
+<div id="giftMessage" class="gift-message"></div>
+<button onclick="nextPage('page6')">Next 💌</button>
+</div>
+
+<div id="page6" class="page">
+<h2>💌 A Little Birthday Letter</h2>
+<div class="letter">
+<p>Dear Junuu 💜,</p>
+<p>Happy Birthday! 🎂🥳</p>
+<p>I hope your special day is filled with happiness, laughter, fun and lots of beautiful memories.</p>
+<p>Keep smiling, keep being yourself and keep spreading your amazing energy wherever you go. ✨</p>
+<p>You deserve a wonderful year ahead! 💜</p>
+<p>Once again...<br><b>HAPPY BIRTHDAY JUNUU! 🎉🎂💖</b></p>
+</div>
+<button onclick="nextPage('page7');launchConfetti()">Our Memories 📸</button>
+</div>
+
+<div id="page7" class="page">
+<h2>📸 Our Memories</h2>
+<p>Some beautiful memories 💜</p>
+<div class="photo-grid">
+<img src="photo1.jpg" alt="Memory 1" onclick="viewPhoto(this)">
+<img src="photo2.jpg" alt="Memory 2" onclick="viewPhoto(this)">
+<img src="photo3.jpg" alt="Memory 3" onclick="viewPhoto(this)">
+<img src="photo4.jpg" alt="Memory 4" onclick="viewPhoto(this)">
+</div>
+<p class="small">Tap a photo to celebrate ✨</p>
+<button onclick="nextPage('page8');launchConfetti()">Final Surprise 🎁</button>
+</div>
+
+<div id="page8" class="page">
+<div class="final-heart">💜</div>
+<h1>HAPPY BIRTHDAY JUNUU!</h1>
+<p>🎂✨🥳💖🎉</p>
+<p>May this year bring you lots of happiness, laughter and unforgettable moments!</p>
+<p>Keep smiling always! 😊💜</p>
+<button onclick="launchConfetti();bigCelebration()">CELEBRATE! 🎉</button>
+<br><button onclick="location.reload()">Start Again 🔄</button>
+</div>
+
+<script>
+function toggleMusic(){
+ const music=document.getElementById("bgMusic");
+ const btn=document.getElementById("musicBtn");
+ if(music.paused){
+  music.play().then(()=>{btn.innerHTML="⏸️ Pause Music";}).catch(()=>{});
+ }else{
+  music.pause();
+  btn.innerHTML="🎵 Play Music";
+ }
+}
+
+function nextPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function checkPass(){
+ const pass=document.getElementById("pass").value;
+ if(pass==="1609"){
+  document.getElementById("error").style.display="none";
+  launchConfetti();
+  setTimeout(()=>nextPage("page2"),500);
+ }else{
+  document.getElementById("error").style.display="block";
+  document.getElementById("pass").value="";
+ }
+}
+document.getElementById("pass").addEventListener("keydown",e=>{if(e.key==="Enter")checkPass()});
+
+let candleBlown=false;
+function blowCandle(){
+ if(candleBlown)return;
+ candleBlown=true;
+ document.getElementById("candle").classList.add("off");
+ document.getElementById("wishText").innerHTML="✨ WISH MADE! ✨<br><br>May all your good wishes come true! 💜🥳";
+ launchConfetti();
+}
+function openGift(n){
+ const gifts=[
+  "💖 Gift 1: Always stay happy, crazy and completely YOU! 😝💜",
+  "🤗 Gift 2: Sending you a giant virtual hug! 🫂💜",
+  "🍕 Gift 3: Party pending che! Food + fun = perfect! 😂🍕",
+  "✨ Gift 4: May every new day bring you something beautiful! 🌸",
+  "🎉 Gift 5: Unlimited happiness, laughter and good memories! 🥳",
+  "💌 Gift 6: The most important gift — you are special! 💜"
+ ];
+ const m=document.getElementById("giftMessage");
+ m.innerHTML=gifts[n-1];m.style.display="block";launchConfetti();
+}
+function launchConfetti(){
+ const s=["🎉","🎊","✨","💜","💖","⭐","🥳"];
+ for(let i=0;i<60;i++){
+  const c=document.createElement("div");c.className="confetti";
+  c.innerHTML=s[Math.floor(Math.random()*s.length)];
+  c.style.left=Math.random()*100+"vw";
+  c.style.fontSize=(10+Math.random()*20)+"px";
+  c.style.animationDuration=(2+Math.random()*3)+"s";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),5000);
+ }
+}
+function startHearts(){
+ if(window.heartsStarted)return;
+ window.heartsStarted=true;
+ setInterval(()=>{
+  const h=document.createElement("div");h.className="bg-heart";
+  h.innerHTML=Math.random()>.5?"💜":"💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+ },800);
+}
+function viewPhoto(img){
+ launchConfetti();
+}
+function bigCelebration(){
+ for(let i=0;i<4;i++)setTimeout(launchConfetti,i*500);
+}
+</script>
+</body>
+</html>
